@@ -18,7 +18,7 @@ const Header = () => {
                             </NavLink>
                     </ul>
                 </nav>
-                <h1>Flights</h1>
+                <h1>Akimetsu</h1>
             </div>
         </div>
     );

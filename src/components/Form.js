@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from "axios";
+import Card from './Card';
 
 const Form = () => {
+    const[animesData, setAnimesData] = useState([]);
 
     useEffect(() => {
-        axios.get(
-            'https://api.themoviedb.org/3/search/movie?api_key=ed82f4c18f2964e75117c2dc65e2161d&query=${search}&language=fr-FR');
+        axios.get('https://kitsu.io/api/edge/anime').then((res)=>setAnimesData(res.data.data ));
     }, []);
     
     return (
         <div className="form-component">
             <div className="form-container">
                 <form > 
-                    <input type="text" placeholder='Enter a flight title' id="search-input" />
+                    <input type="text" placeholder='Enter an anime title' id="search-input" />
                     <input type="submit" value="Search" />
                 </form>
                   <div className="btn-sort-container">
@@ -25,7 +26,9 @@ const Form = () => {
                   </div>
             </div>
 
-            <div className="result"></div>
+            <div className="result">
+                {animesData.slice(0,12).map((anime) => (<Card key={anime.id} anime={anime} />))}
+            </div>
         </div>
     );
 };
