@@ -5,6 +5,18 @@ const Card = ({ anime }) => {
     let [yy, mm, dd] = date.split("-"); //splits old date based off -
     return [dd, mm, yy].join("/");
   };
+  const addFavorite = () => {
+    let storedData = window.localStorage.animes
+      ? window.localStorage.animes.split(",")
+      : [];
+
+      if(!storedData.includes(anime.id.toString())){
+        storedData.push(anime.id)
+        window.localStorage.animes = storedData;
+        console.log(window.localStorage.animes)
+      }
+  
+  };
 
   return (
     <div className="card">
@@ -23,9 +35,29 @@ const Card = ({ anime }) => {
         ""
       )}
       {<h4>Rating: {anime.attributes.averageRating}%</h4>}
-      {<h5>Trailer: <a href={"https://www.youtube.com/watch?v="+anime.attributes.youtubeVideoId} target="_blank" rel="noopener noreferrer">Watch</a></h5>}
+      {anime.attributes.youtubeVideoId ? (
+        <h5>
+          Trailer:{" "}
+          <a
+            href={
+              "https://www.youtube.com/watch?v=" +
+              anime.attributes.youtubeVideoId
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Watch
+          </a>
+        </h5>
+      ) : (
+        ""
+      )}
+      {anime.attributes.description ? <h3>Description</h3> : ""}
+      <p>{anime.attributes.description}</p>
 
-     
+      <div className="btn" onClick={() => addFavorite()}>
+        Add to Favorites
+      </div>
     </div>
   );
 };
